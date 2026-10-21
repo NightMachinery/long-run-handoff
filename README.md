@@ -4,6 +4,10 @@ Keep long agent runs resumable when a coordinator is compacted, loses a child
 report or hands over to another session. The skill preserves owner instructions,
 a coordinator-owned org checklist, narrative state and durable worker results.
 It tells a successor what to read and what to verify before resuming live work.
+The default run directory, `~/.agents/runs/<project>/<run>/`, is shared across
+agent harnesses and lives outside every repository. Its `USER-VERBATIM.md`,
+`STATE.md` and other run files are never committed because they contain owner
+instructions and live state.
 
 ## Install
 

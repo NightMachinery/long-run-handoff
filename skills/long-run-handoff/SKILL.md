@@ -11,15 +11,21 @@ Files preserve decisions; verify the world before resuming them.
 
 ## Before substantial work
 
-Create a private shared run directory with `TASK.md`, `STATE.md`, `plan.md`,
-`briefs/`, `results/` and `logs/`. Keep machine and account mappings there.
+The default run directory is `~/.agents/runs/<project>/<run>/`, **outside every
+repository**: Claude Code, Codex and other agents share one neutral location,
+so a successor from another harness resumes from the same files.
+Its `USER-VERBATIM.md`, `STATE.md`, `plan.md`,
+`briefs/`, `results/` and `logs/` are never committed: they hold the owner's own
+words, account mappings and live state. If it must be inside a repository,
+exclude the directory locally with `.git/info/exclude` or global excludes.
 
-- `TASK.md` preserves the owner's task verbatim. Append each later instruction
+- `USER-VERBATIM.md` preserves the owner's task verbatim. Append each later instruction
   verbatim under a dated owner entry **before acting**, then record what was done.
 - `plan.md` holds the design and links to shared contracts. Do not reopen settled
   decisions merely because their reasoning left the context window.
-- `TASKS.org` is the checklist, at the main repository root and locally gitignored:
-  verify with `git check-ignore TASKS.org`. Without a repository, put it in the
+- `TASKS.org` is the checklist at the main repository root. Ignore it in
+  `.git/info/exclude` or global excludes, with no committed file or ignore change;
+  verify with `git check-ignore -v TASKS.org`. Without a repository, put it in the
   run directory. The coordinator is its only writer; children report status.
   Follow an installed org-mode skill when present. Use TODO keywords and org
   `DEADLINE:` planning lines, replacing the timestamp template with a real date:
@@ -49,12 +55,15 @@ Take timestamps from `date`, name the clock/timezone, and record any clock drift
   log or result path. Keep raw results in linked artifacts, not in the narrative.
 
 Add this shortened pointer to a project-scoped `CLAUDE.md` or equivalent recovery
-instructions. Substitute absolute paths; do not edit generated/global instructions.
+instructions. The committed block may name the run directory with `~/`, never
+an absolute home path, and contains no private content. Do not edit generated/global
+instructions. Expand paths locally when tools require absolute paths.
 
 ```markdown
 ## Compact Instructions
-1. Read /abs/run/TASK.md, this project instruction file, /abs/run/STATE.md,
-   /abs/run/plan.md and the TASKS.org linked from STATE.md.
+1. Read ~/.agents/runs/<project>/<run>/USER-VERBATIM.md and this project instruction file,
+   then ~/.agents/runs/<project>/<run>/STATE.md, ~/.agents/runs/<project>/<run>/plan.md,
+   and TASKS.org linked from STATE.md.
 2. Verify repositories, live workers/jobs and expected outputs before acting.
 3. Resume the next unfinished TASKS.org item; do not relaunch live work or reopen decisions.
 4. Keep TASKS.org and STATE.md current; record unverifiable claims as uncertainties.
@@ -71,7 +80,7 @@ That instruction does not expand permission; report unresolved boundaries as PAR
 
 ## After compaction or replacement
 
-Read TASK.md, project recovery instructions, STATE.md, plan.md and linked TASKS.org.
+Read USER-VERBATIM.md, project recovery instructions, STATE.md, plan.md and linked TASKS.org.
 Verify repository status/history, live worker/job state and output files using the
 actual backend. Resume the first unfinished item; mark unverifiable claims uncertain.
 A registry or remembered launch is not proof that work is running or finished.
@@ -99,9 +108,7 @@ A registry or remembered launch is not proof that work is running or finished.
 - `paseo-compact`: compaction at a natural endpoint.
 - `paseo-cache-warmer`: keepalive while waiting.
 - `quota-management`: watch the main coordinator's quota and hand off when it says to.
-- `event-driven-waiting`: arm the completion notification alongside each launch.
-- `event-driven-coordination`: supervise many workers for hours with event-based
-  hand-backs, checkpoints and the hourly recovery ping.
+- `event-driven-agents`: completion waits; load its fleet reference for many workers.
 
 If a companion is absent, report it and use a verified backend equivalent;
 if none is available, checkpoint rather than invent commands or lose ownership.
