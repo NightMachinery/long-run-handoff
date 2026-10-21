@@ -100,6 +100,8 @@ A registry or remembered launch is not proof that work is running or finished.
 - `paseo-cache-warmer`: keepalive while waiting.
 - `quota-management`: watch the main coordinator's quota and hand off when it says to.
 - `event-driven-waiting`: arm the completion notification alongside each launch.
+- `event-driven-coordination`: supervise many workers for hours with event-based
+  hand-backs, checkpoints and the hourly recovery ping.
 
 If a companion is absent, report it and use a verified backend equivalent;
 if none is available, checkpoint rather than invent commands or lose ownership.

@@ -36,6 +36,8 @@ Useful standalone companions include:
 - [quota-management](https://github.com/NightMachinery/quota-management) for
   watching the main coordinator's allowance and deciding when to hand off.
 - `paseo` and `paseo-handoff`, when installed, for operating a successor in Paseo.
+- `event-driven-coordination`, when installed, for fleet checkpoints, event-based
+  hand-backs and the hourly recovery ping.
 
 No skill grants permission to move data, change account or launch another agent.
 After any notification or coordinator change, inspect actual state and durable
