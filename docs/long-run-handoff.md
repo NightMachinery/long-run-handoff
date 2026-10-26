@@ -25,6 +25,37 @@ The copy-ready block is in the skill. A committed pointer may use a `~/` run pat
 never an absolute home path, and must contain no private content. Do not insert
 it into generated or global agent instructions.
 
+## Reviewed output manifests
+
+Before reusing reviewed outputs, snapshot the directories holding their source,
+inputs and binaries. Keep manifests with the review receipts, outside those
+directories, and check them before trusting receipts copied later:
+
+```sh
+python3 skills/long-run-handoff/scripts/tree-manifest.py snapshot output -o milestone.json
+python3 skills/long-run-handoff/scripts/tree-manifest.py check output milestone.json
+```
+
+The [helper](../skills/long-run-handoff/scripts/tree-manifest.py) needs only Python 3.
+Without `-o`, it creates the sibling `output.manifest.json`; it refuses overwrites
+and output paths inside the inspected tree. `.git` and `__pycache__` are excluded.
+Add `--exclude '*.tmp' 'logs/**'`: slashless globs match any path component; others
+match relative POSIX paths (also with a trailing `/` for pruning directories).
+`check` reuses the saved excludes and groups differences by top-level folder.
+
+The flat JSON records file SHA-256, size and executable bits, and symlink targets
+without following them. Its root hashes sorted canonical JSON entry lines (sorted
+keys, compact separators, ASCII escaping, UTF-8 and a newline per entry). Times and
+empty directories are ignored; relocated identical trees match. Keep inputs
+quiescent while hashing, since this is not an atomic filesystem snapshot.
+Unreadable or special files fail instead of being skipped. Exit codes are `0`
+for a saved snapshot/identical check, `1` for differences and `2` for usage or
+IO/format errors. Run tests from the repository root:
+
+```sh
+python3 -B -m unittest discover -s skills/long-run-handoff/scripts -p 'test_tree_manifest.py'
+```
+
 ## Use existing skills for execution
 
 The handoff protocol names companions by their installed skill names. It does

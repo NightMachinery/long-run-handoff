@@ -20,4 +20,6 @@ For another Claude profile, set `CLAUDE_CONFIG_DIR` and install with
 `--agent claude-code`. The [short guide](docs/long-run-handoff.md) explains the
 file layout and companion skills. No custom shell setup is required.
 
+Use the [tree manifest helper](skills/long-run-handoff/scripts/tree-manifest.py) to freeze and check reviewed source, input and binary hashes.
+
 MIT licensed. See [LICENSE](LICENSE).

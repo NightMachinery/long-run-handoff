@@ -78,6 +78,14 @@ and remaining work. Update the progress note after milestones so a stopped
 worker can resume. State: "Runs unattended; this brief settles design questions."
 That instruction does not expand permission; report unresolved boundaries as PARTIAL.
 
+## Before reusing reviewed outputs
+
+Before reusing an output directory after sending a milestone for review, save
+immutable hashes of its source, inputs and binaries with
+[`tree-manifest.py`](scripts/tree-manifest.py). Keep manifests outside the hashed
+directories; a receipt copied later counts only after `check` confirms those
+hashes match. See the [guide](../../docs/long-run-handoff.md#reviewed-output-manifests).
+
 ## After compaction or replacement
 
 Read USER-VERBATIM.md, project recovery instructions, STATE.md, plan.md and linked TASKS.org.
