@@ -14,7 +14,7 @@ Files preserve decisions; verify the world before resuming them.
 The default run directory is `~/.agents/runs/<project>/<run>/`, **outside every
 repository**: Claude Code, Codex and other agents share one neutral location,
 so a successor from another harness resumes from the same files.
-Its `USER-VERBATIM.md`, `STATE.md`, `plan.md`,
+Its `USER-VERBATIM.md`, `STATE.md`, `plan.md`, `STORAGE.md`,
 `briefs/`, `results/` and `logs/` are never committed: they hold the owner's own
 words, account mappings and live state. If it must be inside a repository,
 exclude the directory locally with `.git/info/exclude` or global excludes.
@@ -88,15 +88,22 @@ hashes match. See the [guide](../../docs/long-run-handoff.md#reviewed-output-man
 
 ## Keep storage bounded
 
-Long runs fill disks with regenerable artifacts: screenshots, traces, profiles,
-probe dumps, scratch builds and copied outputs. When a work item is accepted or
-abandoned, delete its regenerable artifacts. Keep the text and anything costly
-or impossible to recreate: USER-VERBATIM.md, STATE.md, plan.md, briefs, results,
-written reports, unmerged work, outputs still under review or covered by a
-manifest, and generated assets not yet saved elsewhere. Workers delete a passing
-run's traces once checked and keep only what their result cites. At each
-milestone, check the run directory's size and prune old logs; note in STATE.md
-when evidence that older entries cite was deleted.
+Long runs fill disks with screenshots, traces, profiles, probe dumps, scratch
+builds and copied outputs. Delete them on a schedule, not on reflex: later work
+often compares against them.
+
+- Keep a ledger, `STORAGE.md`, in the run directory. Give each artifact directory
+  an entry: path, contents, size, owning work item, creation date, and when it
+  becomes safe to delete (a date or a condition). Add entries as work is
+  accepted; delete only what the ledger marks as due.
+- Default retention after acceptance: about a week for traces, profiles, probe
+  dumps and build copies; about a month for screenshots, contact sheets and logs
+  that later work may compare against. Keep anything still under investigation.
+- Never delete USER-VERBATIM.md, STATE.md, plan.md, briefs, results, written
+  reports, unmerged work, outputs under review or covered by a manifest, or
+  generated assets not saved elsewhere; ask before deleting costly assets.
+- At each milestone, check the run directory's size, delete what is due and
+  update the ledger. Note in STATE.md when evidence that older entries cite is gone.
 
 ## After compaction or replacement
 
