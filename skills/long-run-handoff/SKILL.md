@@ -86,6 +86,18 @@ immutable hashes of its source, inputs and binaries with
 directories; a receipt copied later counts only after `check` confirms those
 hashes match. See the [guide](../../docs/long-run-handoff.md#reviewed-output-manifests).
 
+## Keep storage bounded
+
+Long runs fill disks with regenerable artifacts: screenshots, traces, profiles,
+probe dumps, scratch builds and copied outputs. When a work item is accepted or
+abandoned, delete its regenerable artifacts. Keep the text and anything costly
+or impossible to recreate: USER-VERBATIM.md, STATE.md, plan.md, briefs, results,
+written reports, unmerged work, outputs still under review or covered by a
+manifest, and generated assets not yet saved elsewhere. Workers delete a passing
+run's traces once checked and keep only what their result cites. At each
+milestone, check the run directory's size and prune old logs; note in STATE.md
+when evidence that older entries cite was deleted.
+
 ## After compaction or replacement
 
 Read USER-VERBATIM.md, project recovery instructions, STATE.md, plan.md and linked TASKS.org.
@@ -125,5 +137,5 @@ if none is available, checkpoint rather than invent commands or lose ownership.
 
 Duplicate launches after compaction; lost mid-run instructions; finished work
 reported only to a vanished parent; missed events from relative waiter targets;
-conflicting checklist writers; an unverified handoff; and repeated work caused
-by reopening a settled decision.
+conflicting checklist writers; an unverified handoff; repeated work caused
+by reopening a settled decision; and a disk filled by stale artifacts.
